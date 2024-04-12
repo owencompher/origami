@@ -1,0 +1,86 @@
+:root {
+    --fg: black;
+    --lgrey: #ddd;
+    --dgrey: #aaa;
+    --bg: white;
+}
+
+body {
+    font-family: Oxygen, sans-serif;
+    font-size: 17px;
+    word-wrap: break-word;
+    margin: auto;
+    width: min(100%, 1150px);
+    height: 100vh;
+    background-color: var(--bg);
+    color: var(--fg);
+}
+
+main {
+    margin-left: 270px;
+    padding: 175px 150px 50px 75px;
+}
+
+aside {
+    width: 270px;
+    height: calc(100% - 50px);
+    position: fixed;
+    border-right: solid 2px;
+    padding: 50px 0 0 0;
+}
+
+aside .title {
+    padding-top: 25px;
+    padding-bottom: 4px;
+}
+aside div {
+    border-bottom: solid 2px; 
+    margin-bottom: 10px;
+    padding: 15px 8px 26px 20px;
+}
+aside nav { padding: 10px 8px 0 20px; }
+aside .scroll {
+    overflow: auto;
+    scrollbar-color: var(--fg) var(--bg);
+    scrollbar-width: thin;
+}
+
+form.big {
+    width: min(500px, 85%);
+    /*margin: 0 min(25px, 5%) 0 min(50px, 10%);*/
+}
+input {
+    border: solid 2px; 
+}
+label {
+    padding-bottom: 5px;
+    display: block; 
+}
+.big input[type=text], .big input[type=password], .big textarea {
+    width: 60%;
+    float: right;
+}
+.big input[type=file] { float: right; }
+::file-selector-button, input[type=submit] {
+    width: 100px;
+    background-color: var(--lgrey);
+}
+input[type=submit]:hover {
+    background-color: var(--dgrey);
+}
+
+a {
+    text-decoration: none;
+    color: var(--fg);
+}
+a:hover { text-decoration: underline; }
+img {
+    display: block;
+    width: 100%;
+    border-top: solid 2px;
+    border-bottom: solid 2px;
+}
+h2 { margin-bottom: 0; }
+.inactive *{
+    color: var(--dgrey);
+}

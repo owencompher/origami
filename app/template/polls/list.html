@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block sidebar %}
+{% endblock %}
+{% block content %}
+    {% for poll in polls %}
+        <div {{ "class=inactive" if not poll.status == "open" }}>
+            <span><a href="{{ url_for('polls.poll', id=poll.id) }}">{{ poll.name }}</a></span>
+            <span style="float: right;">
+                {% if poll.status == "closed" %}closed {{ poll.closes|dt_all }}{% endif %}
+                {% if poll.status == "early" %}opens {{ poll.opens|dt_all }}{% endif %}
+                {% if poll.status == "open" and poll.closes %}closes {{ poll.closes|dt_all }}{% endif %}
+            </span>
+        </div>
+    {% endfor %}
+{% endblock %}

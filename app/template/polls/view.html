@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+    {% if poll.status == "open" %}
+        <div>
+            <input type="submit" value="{{ 'update' if votes }} vote" form="vote">
+            {{ error if error }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <span>{{poll.name}}</span>
+    <span style="float: right">
+        {%  if poll.status == "closed" %}closed
+        {% elif poll.status == "early" %}opens {{ poll.closes|dt_all }}
+        {% elif poll.status == "open" and poll.closes %}closes {{ poll.closes|dt_all }}
+        {% endif %}
+    </span>
+
+    {% if poll.description %}<p>{{poll.description}}</p>{% else %}<br><br>{% endif %}
+    
+    <form id="vote" method="post" action="{{ url_for('polls.vote', id=poll.id) }}">
+        {% for option in poll.options %}
+            <input  {% if poll.flags['single'] %} name="a" value="{{ option.id }}" type="radio"
+                    {% else %} name="{{ option.id }}" type="checkbox"
+                    {% endif %}
+                    {{ 'checked' if option.id in votes }}
+                    {{ 'disabled' if not poll.status == "open" }}
+                >{{ option.name }}{{ ': ' + option.description if option.description }}
+            {% if poll.status == "closed" or not poll.flags['hide_votes'] %}
+                <span style="float: right;">{{ option.count }}</span>
+            {% endif %}
+            <br>
+        {% endfor %}
+    </form>
+{% endblock %}

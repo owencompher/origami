@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <form class="big" method="post">
+        {% if error %}<em>{{ error }}</em><br><br>{% endif %}
+        <label for="username">username:
+            <input name="username" id="username" type="text" required>
+        </label><br>
+        <!--label for="email">email:
+            <input name="email" id="email" type="text">
+        </label><br-->
+        <label for="password">password:
+            <input name="password" id="password" type="password" required>
+        </label><br>
+        <input type="submit" value="register">
+    </form>
+    <br>
+    <a href="{{ url_for('discord.login', register='') }}">register with Discord</a>
+{% endblock %}

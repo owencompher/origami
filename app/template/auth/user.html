@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ user.username }} joined {{ user.joined|dt_all }}<br><br>
+    <form method="post">
+        {% if error %}<em>{{ error }}</em><br><br>{% endif %}
+        <label for="username">username:
+            <input name="username" id="username" type="text" required>
+            <input type="submit" value="update">
+        </label>
+    </form>
+    {% if duser %}
+        associated with the Discord account {{ duser }}<br>
+        <a>remove account</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+            integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+            crossorigin="anonymous">
+    </script>
+    <script type="text/javascript">
+        const socket = io();
+        socket.on("update", () =>  {
+            location.reload();
+        });
+    </script>
+{% endblock %}
+
+{% block sidebar %}<div>
+    <form method="post" action="{{ url_for('speakers.join') }}">
+        <label for="note">
+            <input type="text" name="note" id="note" placeholder="add a note">
+        </label>
+        <input type="submit" value="join queue">
+    </form>
+    {% if current_user.admin or (queue[0] and current_user == queue[0].user) %}<br>
+        <form method="post" action="{{ url_for('speakers.next') }}">
+            <input type="submit" value="next">
+        </form>
+        {% if current_user.admin %}<br>
+            <form method="post" action="{{ url_for('speakers.topic') }}">
+                <input type="text" name="topic" placeholder="set topic" defaultValue="">
+            </form>
+        {% endif %}
+    {% endif %}
+</div>{% endblock %}
+
+{% block content %}
+    <div>
+        topic: {{ topic }}
+        <br><br>
+        {% if queue[0] %}
+            <span>speaking: <a href="{{ queue[0].user.link() }}">{{ queue[0].user }}</a></span>
+            <span style="float: right; font-family: monospace;" id="timer"></span>
+            <script type="text/javascript">
+                const started = new Date("{{ started|localize }}");
+                setInterval(function () {
+                    var since = Date.now() - started;
+                    var timer = []
+                    if (since >= 3600000) timer.push(`${Math.round(since/3600000)}`);
+                    since %= 3600000;
+                    timer.push(`${Math.floor(since/60000)}`.padStart(2, '0'));
+                    since %= 60000;
+                    timer.push(`${Math.floor(since/1000)}`.padStart(2, '0'));
+                    document.getElementById('timer').innerHTML = timer.join(':');
+                }, 500);
+            </script>
+        {% endif %}
+    </div>
+    <br><br>
+    {% for queuee in queue[1:] %}<div>
+        <span>{{ queuee.user }}{{ ": " if queuee.note }}{{ queuee.note }}</span>
+        <span style="float: right;">{{ queuee.entered|dt_format }}</span>
+    </div>{% endfor %}  
+{% endblock %}
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"/>
+    {% if 'timezone' not in session %}
+        <script type="text/javascript">
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            fetch("{{ url_for('root.set_timezone') }}", {method: 'POST', body: timezone});
+        </script>
+    {% endif %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <aside>
+        <div class="title">
+            <h2><a href="/">origami</a></h2>
+            {% if current_user.is_authenticated %}
+                as <a href="{{ current_user.link() }}">{{ current_user.username }}</a>
+                | <a href="{{ url_for('auth.logout', next=request.path) }}">log out</a>
+            {% else %}
+                <a href="{{ url_for('auth.register', next=request.path) }}">register</a> 
+                | <a href="{{ url_for('auth.login', next=request.path) }}">log in</a>
+            {% endif %}
+        </div>
+        {% block sidebar %}{% endblock %}
+        <nav>
+            <a href="{{ url_for('speakers.list') }}">speakers</a><br>
+            <a href="{{ url_for('polls.list') }}"   >polls</a><br>
+            <br>
+            {% if not current_user.token %}
+                <a href="{{ url_for('discord.login', register='') }}">
+                    {{ 'link' if current_user.is_authenticated else 'log in with' }} Discord account
+                </a>
+                <br>
+            {% endif %}
+        </nav>
+    </aside>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
