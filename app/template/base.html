@@ -15,13 +15,13 @@
 <body>
     <aside>
         <div class="title">
-            <h2><a href="/">origami</a></h2>
+            <h2><a href="{{ url_for('root.index') }}">origami</a></h2>
             {% if current_user.is_authenticated %}
                 as <a href="{{ current_user.link() }}">{{ current_user.username }}</a>
-                | <a href="{{ url_for('auth.logout', next=request.path) }}">log out</a>
+                | <a href="{{ url_for('auth.logout', next=url_for(request.endpoint, **request.view_args)) }}">log out</a>
             {% else %}
-                <a href="{{ url_for('auth.register', next=request.path) }}">register</a> 
-                | <a href="{{ url_for('auth.login', next=request.path) }}">log in</a>
+                <a href="{{ url_for('auth.register', next=url_for(request.endpoint, **request.view_args)) }}">register</a>
+                | <a href="{{ url_for('auth.login', next=url_for(request.endpoint, **request.view_args)) }}">log in</a>
             {% endif %}
         </div>
         {% block sidebar %}{% endblock %}

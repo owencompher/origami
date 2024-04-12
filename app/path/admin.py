@@ -11,7 +11,7 @@ class AuthView(ModelView):
         return current_user.is_authenticated and current_user.admin
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('auth.login', next=request.path))
+        return redirect(url_for('auth.login', next=url_for(request.endpoint)))
 
 
 class IndexView(AdminIndexView):
@@ -19,7 +19,7 @@ class IndexView(AdminIndexView):
         return current_user.is_authenticated and current_user.admin
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('auth.login', next=request.path))
+        return redirect(url_for('auth.login', next=url_for(request.endpoint)))
 
 
 admin = Admin(app, name="admin", index_view=IndexView())
