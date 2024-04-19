@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     email = CharField(null=True)
     joined = DateTimeField(default=now())
     admin = BooleanField(default=False)
+    editor = BooleanField(default=False)
     duid = CharField(null=True)
     token = TextField(null=True)
 

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>main { padding-top: 150px; }</style>
+{% endblock %}
+
+{% block sidebar %}
+    <div class='tree'>
+        {{ directory|safe }}
+        <br>
+        {% if current_user.editor %}
+            <a style="padding-left: 0" href='{{ url_for('wiki.edit', path=path) }}'>edit this page</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="wiki">
+        {{ page|safe }}
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+    <div class='tree'>
+        {{ directory|safe }}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        <textarea name="text" rows="20" spellcheck="false">{{ page }}</textarea><br>
+        <br>
+        <input value="save" type="submit">
+        <a style="padding-left: 10px" href="{{ url_for('wiki.wiki', path=path) }}">cancel</a>
+    </form>
+{% endblock %}

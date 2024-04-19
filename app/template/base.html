@@ -28,6 +28,8 @@
         <nav>
             <a href="{{ url_for('speakers.list') }}">speakers</a><br>
             <a href="{{ url_for('polls.list') }}"   >polls</a><br>
+            <a href="/map/"                          >map</a><br>
+            <a href="{{ url_for('wiki.wiki') }}"    >wiki</a><br>
             <br>
             {% if not current_user.token %}
                 <a href="{{ url_for('discord.login', register='') }}">

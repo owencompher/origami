@@ -51,8 +51,9 @@ form.big {
     width: min(500px, 85%);
     /*margin: 0 min(25px, 5%) 0 min(50px, 10%);*/
 }
-input {
-    border: solid 2px; 
+input, textarea {
+    font-size: 16px;
+    border: solid 2px var(--fg); 
 }
 label {
     padding-bottom: 5px;
@@ -70,12 +71,18 @@ label {
 input[type=submit]:hover {
     background-color: var(--dgrey);
 }
+textarea {
+    width: 100%;
+    scrollbar-color: var(--fg) var(--lgrey);
+    scrollbar-width: thin;
+}
 
 a {
     text-decoration: none;
     color: var(--fg);
 }
-a:hover { text-decoration: underline; }
+.wiki a { text-decoration: underline; }
+a:hover { text-decoration: underline var(--dgrey); }
 img {
     display: block;
     width: 100%;
@@ -86,3 +93,18 @@ h2 { margin-bottom: 0; }
 .inactive *{
     color: var(--dgrey);
 }
+
+details > details {
+    #border-left: solid 2px var(--lgrey);
+    margin-left: 5px;
+    padding-left: 11px;
+}
+details > a {
+    border-left: solid 2px var(--lgrey);
+    margin-left: 19px;
+    padding-left: 10px;
+}
+.tree > a {
+    padding-left: 15px;
+}
+
