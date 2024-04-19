@@ -18,8 +18,7 @@ def localize(dt) -> datetime.datetime:
 @app.template_filter()
 def dt_from_now(dt) -> str:
     """Compares datetime to now, returning a string formatted as '(in) x years/days/hours/minutes/seconds (ago)'"""
-    dt = localize(dt)
-    n = pytz.utc.localize(now())
+    n = now()
     past = n > dt
     delta = n - dt if past else dt - n
     if delta.days > 550:
@@ -48,7 +47,7 @@ def dt_from_now(dt) -> str:
 def dt_format(dt) -> str:
     """Returns a string formatted like 'on 10 Apr at 10:30' or 'today at 10:30'"""
     dt = localize(dt)
-    n = pytz.utc.localize(now())
+    n = localize(now())
 
     if not dt.year == n.year:
         f = " on %d %b %Y at %H:%M"
