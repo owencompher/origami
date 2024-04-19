@@ -1,3 +1,5 @@
+# a file app/config.py should set these values
+
 DISCORD_CLIENT_ID = ''
 DISCORD_CLIENT_SECRET = ''
 DISCORD_PUBLIC_KEY = ''
