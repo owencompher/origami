@@ -1,9 +1,30 @@
 from flask import Blueprint, redirect, request, url_for
 from flask_login import current_user
+from discord_interactions import verify_key_decorator
+from pprint import pp
+from config import DISCORD_PUBLIC_KEY
 from app import sock, lm, now
 from models import User, Queuee
+from commands import commands
 
 bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+@bp.route('/', methods=['POST'])
+@verify_key_decorator(DISCORD_PUBLIC_KEY)
+def ping():
+    interaction = request.get_json()
+    if not interaction: return 0
+    pp(interaction)
+
+    if interaction['type'] == 1:
+        return {'type': 1}
+    elif interaction['type'] == 2:
+        return commands[interaction['data']['name']](interaction)
+    elif interaction['type'] == 3:
+        return commands[interaction['data']['custom_id']](interaction)
+
+    return {'type': 0}
 
 
 @bp.route('/speakers/join', methods=['POST'])
