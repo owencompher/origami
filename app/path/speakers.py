@@ -20,6 +20,7 @@ def list():
 @login_required
 def join():
     note = request.form['note'] if request.method == 'POST' else request.query_string
+    if not Queuee.get_or_none(): Var.replace(key='speaker_started', value=now()).execute()
     queuee = Queuee.create(user=current_user, note=note, entered=now())
     queuee.save()
     print(f"{now()}: {current_user} joined queue")
@@ -31,9 +32,9 @@ def join():
 @bp.route('/next', methods=['GET', 'POST'])
 @login_required
 def next():
+    queue = Queuee.select(Queuee, User).join(User).order_by(Queuee.entered)
+    if not queue: return 'queue is empty!'
     if request.method == 'POST':
-        queue = Queuee.select(Queuee, User).join(User).order_by(Queuee.entered)
-        if not queue: return abort(500)
         if not (current_user.admin or current_user == queue[0].user): return lm.unauthorized()
 
         if queue: 
@@ -42,8 +43,7 @@ def next():
             Var.replace(key='speaker_started', value=now()).execute()
             sock.emit('update')
 
-    elif request.method == 'GET':
-        return Queuee.select(Queuee, User).join(User).order_by(Queuee.entered)[0].user.username
+    elif request.method == 'GET': return queue[0].user
 
     return redirect(url_for('speakers.list'))
 
@@ -57,5 +57,9 @@ def topic():
         Var.replace(key='topic', value=topic).execute()
         print(f"{now()}: {current_user} changed topic to \"{topic}\"")
         sock.emit('update')
+
+    elif request.method == 'GET':
+        topic = Var.get_by_id('topic').value
+        return topic
 
     return redirect(url_for('speakers.list'))
