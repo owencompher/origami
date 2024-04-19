@@ -57,7 +57,7 @@
     <br><br>
     {% for queuee in queue[1:] %}<div>
         <span>{{ queuee.user }}{{ ": " if queuee.note }}{{ queuee.note }}</span>
-        <span style="float: right;">{{ queuee.entered|dt_format }}</span>
+        <span style="float: right;">{{ queuee.entered|dt_all }}</span>
     </div>{% endfor %}  
 {% endblock %}
 

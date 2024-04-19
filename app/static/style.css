@@ -1,8 +1,10 @@
 :root {
-    --fg: black;
+    --fg: #333;
     --lgrey: #ddd;
     --dgrey: #aaa;
-    --bg: white;
+    --bg: #fff;
+    scrollbar-color: var(--fg) var(--lgrey);
+    scrollbar-width: thin;
 }
 
 body {
