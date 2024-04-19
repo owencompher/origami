@@ -4,7 +4,7 @@ from flask_dance.consumer.storage import BaseStorage
 from flask_dance.consumer import oauth_authorized, oauth_before_login
 from flask_login import login_user, current_user
 import ast
-from config import discord_client_secret
+from config import DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET
 from models import *
 
 
@@ -31,8 +31,8 @@ class InUserStorage(BaseStorage):
 
 
 bp = make_discord_blueprint(
-    client_id='1225823464586481875',
-    client_secret=discord_client_secret,
+    client_id=DISCORD_CLIENT_ID,
+    client_secret=DISCORD_CLIENT_SECRET,
     scope=('identify', 'guilds'),
     storage=InUserStorage(),
     #    prompt=None

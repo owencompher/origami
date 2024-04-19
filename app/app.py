@@ -15,7 +15,7 @@ app.wsgi_app = ProxyFix(
 lm = LoginManager(app)
 lm.login_view = 'auth.login'
 db = Database(app)
-sock = SocketIO(app, cors_allowed_origins='https://origami.owencompher.me', ping_interval=(60, 20), ping_timeout=15)
+sock = SocketIO(app, cors_allowed_origins=config.WEB_URL, ping_interval=(60, 20), ping_timeout=15)
 
 
 def now() -> datetime:
